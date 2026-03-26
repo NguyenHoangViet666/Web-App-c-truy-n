@@ -23,10 +23,19 @@ if (connectionString) {
   dbConfig.uri = connectionString;
   // Aiven requires SSL, let's configure it if a CA path is provided
   if (process.env.DB_CA_PATH) {
-    dbConfig.ssl = {
-      ca: fs.readFileSync(path.resolve(process.cwd(), process.env.DB_CA_PATH)),
-      rejectUnauthorized: true
-    };
+    try {
+      const caPath = path.resolve(process.cwd(), process.env.DB_CA_PATH);
+      console.log('Attempting to read CA file from:', caPath);
+      dbConfig.ssl = {
+        ca: fs.readFileSync(caPath),
+        rejectUnauthorized: true
+      };
+      console.log('CA file read successfully.');
+    } catch (err: any) {
+      console.error('CRITICAL: Failed to read CA file:', err.message);
+      // In production, we might want to throw here to stop the server from starting with a broken config
+      throw err;
+    }
   }
 }
 
