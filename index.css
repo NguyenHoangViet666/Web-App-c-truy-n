@@ -1,0 +1,101 @@
+/* index.css - Tệp chứa Config CSS nâng cao cho Premium UI */
+
+/* 1. Base Typography & Resets */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+body {
+  overflow-x: hidden; /* Tránh vỡ layout do hiệu ứng tỏa bóng */
+}
+
+/* 2. Custom Scrollbar (Nịnh mắt người nhìn) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.4); /* primary color mềm mại */
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.8);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.7);
+}
+
+/* 3. Global CSS Animations & Keyframes */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float-large {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); filter: blur(40px); }
+  50% { opacity: 0.8; transform: scale(1.05); filter: blur(50px); }
+}
+
+@keyframes shine {
+  0% { left: -100%; top: -100%; opacity: 0; }
+  10% { opacity: 0.6; }
+  100% { left: 200%; top: 200%; opacity: 0; }
+}
+
+/* Utility classes for animations */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-large {
+  animation: float-large 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hiệu ứng lưới tia mờ ảo cho nền Web3 */
+.bg-mesh-grid {
+  background-image: linear-gradient(to right, rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+.dark .bg-mesh-grid {
+  background-image: linear-gradient(to right, rgba(124, 58, 237, 0.1) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(124, 58, 237, 0.1) 1px, transparent 1px);
+}
+
+/* Shine Hover Effect for Cards */
+.group:hover .shine-effect {
+  animation: shine 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.shine-effect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(35deg);
+  z-index: 10;
+  pointer-events: none;
+}
