@@ -252,10 +252,10 @@ export const Home: React.FC = () => {
                           <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 translate-x-[-100%] animate-[shine_2s_infinite]"></div>
                           <Sparkles className="w-3.5 h-3.5 mr-1.5 text-yellow-400 animate-pulse" /> GỢI Í HÔM NAY
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-5 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-50 to-slate-400 drop-shadow-2xl line-clamp-2 leading-tight">
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-5 drop-shadow-2xl line-clamp-2 leading-tight silver-metallic-text">
                           {slide.title}
                         </h1>
-                        <p className="text-sm md:text-lg text-slate-300/90 mb-8 line-clamp-3 md:line-clamp-2 max-w-2xl mx-auto md:mx-0 leading-relaxed font-light backdrop-blur-sm">
+                        <p className="text-sm md:text-lg text-white mb-8 line-clamp-3 md:line-clamp-2 max-w-2xl mx-auto md:mx-0 leading-relaxed font-light backdrop-blur-sm">
                           {slide.description}
                         </p>
                         <div className="flex flex-col sm:flex-row items-center md:justify-start justify-center gap-4">

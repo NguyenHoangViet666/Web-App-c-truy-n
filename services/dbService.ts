@@ -397,14 +397,19 @@ export const addChapter = async (novelId: string, title: string, content: string
   }
 };
 
-export const updateChapter = async (chapterId: string, title: string, content: string): Promise<void> => {
+export const updateChapter = async (chapterId: string, title: string, content: string): Promise<any> => {
   try {
-    await fetch(`/api/chapters/${chapterId}`, {
+    const res = await fetch(`/api/chapters/${chapterId}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify({ title, content })
     });
-  } catch (e) { console.error(e); }
+    if (!res.ok) throw new Error('Update failed');
+    return await res.json();
+  } catch (e) { 
+    console.error(e); 
+    throw e;
+  }
 };
 
 export const deleteChapter = async (chapterId: string): Promise<void> => {

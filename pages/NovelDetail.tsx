@@ -312,11 +312,16 @@ export const NovelDetail: React.FC = () => {
             <div className="absolute inset-0 bg-slate-100 dark:bg-[#0f1016] z-0"></div>
             <img src={novel.coverUrl} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[120vw] h-[120vh] object-cover opacity-70 dark:opacity-40 blur-[100px] saturate-200 z-10 animate-float" alt="" />
             <div className="absolute inset-0 bg-white/30 dark:bg-[#0f1016]/70 backdrop-blur-3xl z-20"></div>
+            {/* Decorative background orbs to fill space on large screens */}
+            <div className="fixed top-1/4 left-[-10%] w-[35%] h-[60vh] bg-primary/15 rounded-full blur-[180px] pointer-events-none hidden 2xl:block mix-blend-screen z-20"></div>
+            <div className="fixed top-2/3 right-[-10%] w-[30%] h-[50vh] bg-fuchsia-500/15 rounded-full blur-[150px] pointer-events-none hidden 2xl:block mix-blend-screen z-20"></div>
+            {/* Premium Noise Overlay */}
+            <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] dark:opacity-[0.03] pointer-events-none mix-blend-overlay z-20"></div>
             {/* Top dark gradient to ensure text-white Title readability */}
             <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-slate-950/80 via-slate-900/40 to-transparent z-30"></div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 relative z-10 pt-24 md:pt-32">
+        <div className="max-w-[1700px] w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-24 md:pt-32 2xl:px-16">
             <div className="flex flex-col md:flex-row gap-8">
                 <div className="flex-shrink-0 w-64 mx-auto md:mx-0 group">
                     <div className="relative overflow-hidden rounded-2xl shadow-2xl ring-4 ring-white/30 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-indigo-500/30">
@@ -388,7 +393,7 @@ export const NovelDetail: React.FC = () => {
                     {/* DESCRIPTION CARD */}
                     <div className="bg-white/90 dark:bg-[#1a1b26]/90 backdrop-blur-xl p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-white mb-10 text-left transition-all duration-300 hover:shadow-2xl">
                         <h3 className="font-extrabold text-xl mb-4 flex items-center text-slate-800 dark:text-slate-100"><BookOpen className="w-6 h-6 mr-3 text-indigo-500"/> Giới thiệu</h3>
-                        <p className="text-slate-700 dark:text-slate-200 whitespace-pre-wrap leading-loose font-medium text-[15px]">{novel.description}</p>
+                        <p className="text-slate-700 dark:text-white whitespace-pre-wrap leading-loose font-medium text-[15px]">{novel.description}</p>
                         <div className="mt-8 flex flex-wrap gap-2 pt-6 border-t border-slate-100">
                             {novel.genres.map(g => (
                                 <span key={g} className="px-4 py-1.5 bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100 shadow-sm transition-transform hover:scale-105 cursor-default">{g}</span>

@@ -4,6 +4,10 @@ import { pool } from '../db';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = Router();
+const countWords = (content: string) => {
+  if (!content) return 0;
+  return content.replace(/<[^>]*>?/gm, ' ').trim().split(/\s+/).filter(Boolean).length;
+};
 
 // Get chapters for a novel
 router.get('/novel/:novelId', async (req, res) => {
@@ -55,9 +59,10 @@ router.post('/', authenticateToken, async (req: AuthRequest, res) => {
     }
 
     const id = uuidv4();
+    const calculatedWordCount = countWords(content);
     await pool.query(
       'INSERT INTO chapters (id, novel_id, title, content, word_count) VALUES (?, ?, ?, ?, ?)',
-      [id, novelId, title, content, wordCount || 0]
+      [id, novelId, title, content, calculatedWordCount]
     );
 
     res.status(201).json({ id, message: 'Chapter created successfully' });
@@ -86,6 +91,37 @@ router.delete('/:id', authenticateToken, async (req: AuthRequest, res) => {
 
     await pool.query('DELETE FROM chapters WHERE id = ?', [id]);
     res.json({ message: 'Chapter deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: (error as Error).message });
+  }
+});
+
+// Update chapter
+router.put('/:id', authenticateToken, async (req: AuthRequest, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    // Check permissions
+    const [chapters] = await pool.query('SELECT novel_id FROM chapters WHERE id = ?', [id]);
+    const chapter = (chapters as any[])[0];
+    if (!chapter) return res.status(404).json({ message: 'Chapter not found' });
+
+    const [novels] = await pool.query('SELECT uploader_id FROM novels WHERE id = ?', [chapter.novel_id]);
+    const novel = (novels as any[])[0];
+
+    const isAdmin = req.user?.roles.includes('Admin') || req.user?.roles.includes('SSR');
+    if (novel.uploader_id !== req.user?.id && !isAdmin) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    const calculatedWordCount = countWords(content);
+    await pool.query(
+      'UPDATE chapters SET title = ?, content = ?, word_count = ? WHERE id = ?',
+      [title, content, calculatedWordCount, id]
+    );
+
+    res.json({ message: 'Chapter updated successfully', wordCount: calculatedWordCount });
   } catch (error) {
     res.status(500).json({ error: (error as Error).message });
   }

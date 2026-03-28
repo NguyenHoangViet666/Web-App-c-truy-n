@@ -183,7 +183,7 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ type }) => {
                             className={`w-10 h-10 rounded-xl font-bold transition-all duration-300 ${
                                 currentPage === page 
                                 ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg shadow-primary/30 scale-110' 
-                                : 'bg-white dark:bg-[#1a1b26] border border-purple-100/50 dark:border-purple-900/50 text-slate-600 dark:text-slate-300 hover:bg-purple-50 hover:text-primary shadow-sm'
+                                : 'bg-white dark:bg-[#1a1b26] border border-purple-100/50 dark:border-purple-900/50 text-slate-600 dark:text-slate-200 hover:bg-purple-50 hover:text-primary shadow-sm'
                             }`}
                         >
                             {page}

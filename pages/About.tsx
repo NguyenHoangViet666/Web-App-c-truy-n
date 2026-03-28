@@ -19,7 +19,7 @@ export const About: React.FC = () => {
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 animate-fadeIn">
                 Kết Nối Đam Mê <span className="text-blue-400">Light Novel</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
+            <p className="text-lg md:text-xl text-white max-w-3xl mx-auto mb-10 leading-relaxed">
                 BetoBook là nền tảng đọc truyện trực tuyến dành cho giới trẻ, nơi hội tụ những bản dịch chất lượng và những tác phẩm sáng tác độc đáo.
             </p>
             <div className="flex justify-center gap-4">
