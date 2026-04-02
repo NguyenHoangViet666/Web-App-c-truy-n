@@ -25,10 +25,10 @@ import {
   createRoleRequest, getRoleRequests, processRoleRequest, checkUserPendingRequest,
   getPostsByAuthor, deletePost, getUserById,
   sendFriendRequest, acceptFriendRequest, cancelFriendRequest, unfriend,
-  updateUserProfileData, getNovelsByUploader
+  updateUserProfileData, getNovelsByUploader, getNovelById
 } from '../services/dbService';
 
-type Tab = 'overview' | 'novels' | 'posts' | 'friends' | 'admin_users' | 'admin_novels' | 'admin_requests';
+type Tab = 'overview' | 'novels' | 'posts' | 'friends' | 'admin_users' | 'admin_novels' | 'admin_requests' | 'liked_novels';
 
 export const Profile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
@@ -45,6 +45,7 @@ export const Profile: React.FC = () => {
   // Data States
   const [userNovels, setUserNovels] = useState<Novel[]>([]);
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [likedNovelsList, setLikedNovelsList] = useState<Novel[]>([]);
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [loading, setLoading] = useState(true);
 
@@ -157,6 +158,20 @@ export const Profile: React.FC = () => {
           fetchFriendsData();
       }
   }, [activeTab, profileUser?.friends, profileUser?.friendRequests, isOwnProfile]);
+  // Fetch Liked Novels
+  useEffect(() => {
+      if (activeTab === 'liked_novels' && profileUser) {
+          const fetchLikedNovels = async () => {
+              if (profileUser.likedNovelIds && profileUser.likedNovelIds.length > 0) {
+                  const novels = await Promise.all(profileUser.likedNovelIds.map(id => getNovelById(id)));
+                  setLikedNovelsList(novels.filter(n => n !== null) as Novel[]);
+              } else {
+                  setLikedNovelsList([]);
+              }
+          };
+          fetchLikedNovels();
+      }
+  }, [activeTab, profileUser?.likedNovelIds]);
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0] && profileUser) {
@@ -438,6 +453,11 @@ export const Profile: React.FC = () => {
                       <button onClick={()=>setActiveTab('friends')} className={`flex-shrink-0 flex items-center px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === 'friends' ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-md shadow-primary/20' : 'text-slate-600 dark:text-slate-300 hover:bg-primary/5 hover:text-primary'}`}>
                           <Users className="w-4 h-4 mr-2 md:mr-3"/> Bạn bè
                       </button>
+                      {isOwnProfile && (
+                          <button onClick={()=>setActiveTab('liked_novels')} className={`flex-shrink-0 flex items-center px-4 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === 'liked_novels' ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-md shadow-primary/20' : 'text-slate-600 dark:text-slate-300 hover:bg-primary/5 hover:text-primary'}`}>
+                              <Heart className="w-4 h-4 mr-2 md:mr-3"/> Truyện đã thích
+                          </button>
+                      )}
                       
                       {isDashboard && (
                           <>
@@ -598,6 +618,35 @@ export const Profile: React.FC = () => {
                               </div>
                           )}
                       </div>
+                  </div>
+              )}
+
+              {activeTab === 'liked_novels' && isOwnProfile && (
+                  <div className="space-y-6 animate-fadeIn">
+                      <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 flex items-center mb-6">
+                          <Heart className="w-6 h-6 mr-2 text-primary"/> Truyện đã thích
+                      </h2>
+                      
+                      {likedNovelsList.length > 0 ? (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                              {likedNovelsList.map(novel => (
+                                  <Link to={`/novel/${novel.id}`} key={novel.id} className="group flex flex-col bg-white/80 dark:bg-[#1a1b26]/80 backdrop-blur-md rounded-2xl shadow-sm hover:shadow-[0_10px_40px_-10px_rgba(124,58,237,0.3)] overflow-hidden border border-purple-100/50 dark:border-purple-900/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2">
+                                      <div className="aspect-[2/3] bg-slate-200 dark:bg-slate-700 relative overflow-hidden">
+                                          <img src={novel.coverUrl} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700" alt={novel.title}/>
+                                      </div>
+                                      <div className="p-4 flex flex-col flex-1">
+                                          <h3 className="font-bold text-base line-clamp-2 group-hover:text-primary mb-1 text-slate-800 dark:text-slate-100 transition-colors">{novel.title}</h3>
+                                          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{novel.author}</p>
+                                      </div>
+                                  </Link>
+                              ))}
+                          </div>
+                      ) : (
+                          <div className="text-center py-12 text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-[#1a1b26]/50 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800">
+                              <Heart className="w-12 h-12 mx-auto mb-4 text-slate-300 dark:text-slate-600"/>
+                              <p>Bạn chưa thích truyện nào.</p>
+                          </div>
+                      )}
                   </div>
               )}
 
