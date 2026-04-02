@@ -15,7 +15,7 @@ import { About } from './pages/About';
 import { Messages } from './pages/Messages';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
-import { WeatherEffect } from './components/WeatherEffect';
+
 
 // Protected Route Wrapper
 const ProtectedUserRoute = ({ children }: { children?: React.ReactNode }) => {
@@ -68,8 +68,7 @@ function AppContent() {
         </Routes>
       </main>
 
-      {/* PHASE 9 GAMIFICATION METAVERSE */}
-      <WeatherEffect />
+
 
       {showFooter && (
         <footer className="bg-white dark:bg-[#1a1b26] border-t border-slate-200 dark:border-slate-800 py-8 mt-auto relative z-10">
