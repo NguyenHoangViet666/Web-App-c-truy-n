@@ -152,7 +152,7 @@ export const Navbar: React.FC = () => {
           {/* Logo and Main Navigation */}
           <div className={`flex items-center navbar-transition overflow-hidden origin-left ${scrolled && isSearchFocused ? 'w-0 opacity-0 md:mr-0 scale-x-0' : 'w-auto opacity-100 scale-x-100'}`}>
             <Link to="/" className="flex items-center flex-shrink-0 mr-8 group">
-              <Book className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
+              <img src="/assets/favicon.png" className="h-9 w-9 object-contain group-hover:scale-110 transition-transform" alt="Logo" />
               <span className="ml-2 text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight hidden md:block">BetoBook</span>
             </Link>
             
