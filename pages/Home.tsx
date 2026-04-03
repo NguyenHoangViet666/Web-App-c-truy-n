@@ -161,14 +161,14 @@ export const Home: React.FC = () => {
                       <div className="lg:col-span-2 space-y-12">
                           <div>
                               <div className="h-8 w-48 bg-slate-200 rounded mb-6 animate-pulse"></div>
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-                                  {[1, 2, 3].map(i => <NovelCardSkeleton key={i} />)}
+                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-8 gap-3 md:gap-6">
+                                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => <NovelCardSkeleton key={i} />)}
                               </div>
                           </div>
                           <div>
                               <div className="h-8 w-48 bg-slate-200 rounded mb-6 animate-pulse"></div>
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-                                  {[1, 2, 3].map(i => <NovelCardSkeleton key={i} />)}
+                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-8 gap-3 md:gap-6">
+                                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => <NovelCardSkeleton key={i} />)}
                               </div>
                           </div>
                       </div>
@@ -517,7 +517,7 @@ export const Home: React.FC = () => {
 
             {latestNovels.length > 0 ? (
                 <div className="animate-fadeIn">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-3 md:gap-5">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-8 gap-3 md:gap-5">
                         {latestNovels.map(novel => <NovelCard key={novel.id} novel={novel} />)}
                     </div>
                     
